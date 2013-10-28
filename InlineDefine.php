@@ -30,7 +30,7 @@ class InlineDefine
     public function getDecoratedText($text = null, $terms = null)
     {
         foreach ($terms as $term => $definition) {
-            $text = str_replace($term, $definition, $text);
+            $text = preg_replace("/\b($term)\b/", $definition, $text);
         }
         return $text;
     }

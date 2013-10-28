@@ -29,7 +29,7 @@ class InlineDefineTest extends PHPUnit_Framework_TestCase
         define(
             'EXPECTED_RESULT',
             'An <a href="http://apple.com" title="fiber-tastic fruit">apple</a> ' .
-            'a day beats two <a href="http://pear.com" title="juicy fruit">pear</a>,' .
+            'a day beats two <a href="http://pear.com" title="juicy fruit">pear</a>, ' .
             'just ask the guy with the spears'
         );
     }
@@ -60,7 +60,6 @@ class InlineDefineTest extends PHPUnit_Framework_TestCase
             SIMPLE_SENTENCE,
             $this->_simple_terms
         );
-
         $this->assertEquals(
             $result_text,
             EXPECTED_RESULT
@@ -74,19 +73,13 @@ class InlineDefineTest extends PHPUnit_Framework_TestCase
     */
     public function testGetDecoratedTextAsStaticMethod()
     {
-        $test_text = "An apple a day beats two pear.";
-        $test_terms = array(
-          'apple' =>
-              '<a href="http://apple.com" title="fiber-tastic fruit">apple</a>',
-          'pear' => '<a href="http://pear.com" title="juicy fruit">pear</a>',
+        $result_text = InlineDefine::getDecoratedText(
+            SIMPLE_SENTENCE,
+            $this->_simple_terms
         );
-
-        $result_text = InlineDefine::getDecoratedText($test_text, $test_terms);
-
         $this->assertEquals(
             $result_text,
-            'An <a href="http://apple.com" title="fiber-tastic fruit">apple</a> a' .
-            ' day beats two <a href="http://pear.com" title="juicy fruit">pear</a>.'
+            EXPECTED_RESULT
         );
     }
 
