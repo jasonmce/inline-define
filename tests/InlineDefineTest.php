@@ -7,10 +7,37 @@ require 'InlineDefine.php';
 
 class InlineDefineTest extends PHPUnit_Framework_TestCase
 {
+
+    private $_simple_terms
+        = array(
+            'apple' =>
+                '<a href="http://apple.com" title="fiber-tastic fruit">apple</a>',
+            'pear' => '<a href="http://pear.com" title="juicy fruit">pear</a>',
+          );
+
+    /**
+     * Initialize consts to be used across tests.
+     *
+     * @return Returns nothing.
+     */
+    public static function setUpBeforeClass()
+    {
+        define(
+            'SIMPLE_SENTENCE',
+            'An apple a day beats two pear, just ask the guy with the spears'
+        );
+        define(
+            'EXPECTED_RESULT',
+            'An <a href="http://apple.com" title="fiber-tastic fruit">apple</a> ' .
+            'a day beats two <a href="http://pear.com" title="juicy fruit">pear</a>,' .
+            'just ask the guy with the spears'
+        );
+    }
+
     /**
      * Confirm the constructor returns an object.
      *
-     * @return object Returns nothing.
+     * @return Returns nothing.
      */
     public function testEmptyConstructor()
     {
@@ -28,20 +55,15 @@ class InlineDefineTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDecoratedTextSimpleText()
     {
-        $test_text = "An apple a day beats two pear.";
-        $test_terms = array(
-          'apple' =>
-                '<a href="http://apple.com" title="fiber-tastic fruit">apple</a>',
-          'pear' => '<a href="http://pear.com" title="juicy fruit">pear</a>',
-        );
-
         $inline_text = new InlineDefine();
-        $result_text = $inline_text->getDecoratedText($test_text, $test_terms);
+        $result_text = $inline_text->getDecoratedText(
+            SIMPLE_SENTENCE,
+            $this->_simple_terms
+        );
 
         $this->assertEquals(
             $result_text,
-            'An <a href="http://apple.com" title="fiber-tastic fruit">apple</a> ' .
-            'a day beats two <a href="http://pear.com" title="juicy fruit">pear</a>.'
+            EXPECTED_RESULT
         );
     }
 
